@@ -10,10 +10,22 @@ from mani_skill2.utils.wrappers import RecordEpisode
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("-e", "--env-id", type=str, default="PickCube-v0")
-    parser.add_argument("-o", "--obs-mode", type=str, default="none")
+    # parser.add_argument("-e", "--env-id", type=str, default="StackCube-v0")
+    # parser.add_argument("-e", "--env-id", type=str, default="PickSingleYCB-v0")
+    # parser.add_argument("-e", "--env-id", type=str, default="PickSingleEGAD-v0")
+    # parser.add_argument("-e", "--env-id", type=str, default="PickClutterYCB-v0")
+    # parser.add_argument("-e", "--env-id", type=str, default="PegInsertionSide-v0")
+    # parser.add_argument("-e", "--env-id", type=str, default="PlugCharger-v0")
+    # parser.add_argument("-e", "--env-id", type=str, default="AssemblingKits-v0")
+    # parser.add_argument("-e", "--env-id", type=str, default="TurnFaucet-v0")
+
+    parser.add_argument("-o", "--obs-mode", type=str, default="state")
     parser.add_argument("--reward-mode", type=str)
-    parser.add_argument("-c", "--control-mode", type=str)
+    # parser.add_argument("-c", "--control-mode", type=str)
+    # parser.add_argument("-c", "--control-mode", type=str, default="pd_joint_pos_vel")
+    parser.add_argument("-c", "--control-mode", type=str, default="pd_joint_pos_vel")
     parser.add_argument("--render-mode", type=str)
+    # parser.add_argument("--render-mode", type=str, default="human")
     parser.add_argument("--record-dir", type=str)
     args, opts = parser.parse_known_args()
 
@@ -51,20 +63,34 @@ def main():
 
     obs = env.reset()
     if args.render_mode is not None:
-        env.render(args.render_mode)
+        # env.render(args.render_mode)
+        env.render()
 
+    num_ep = 0
+    import time
+    curr_time = time.time()
     while True:
         action = env.action_space.sample()
         obs, reward, done, info = env.step(action)
-        print("reward", reward)
-        print("done", done)
-        print("info", info)
+
+        # print("reward", reward)
+        # print("done", done)
+        # print("info", info)
 
         if args.render_mode is not None:
-            env.render(args.render_mode)
+            # env.render(args.render_mode)
+            env.render()
 
         if done:
-            break
+            sim_time = time.time() - curr_time
+            curr_time = time.time()
+            print("done", done)
+            # print("sim_time", sim_time)
+            obs = env.reset()
+            print(obs)
+            num_ep += 1
+            if num_ep > 2:
+                break
 
 
 if __name__ == "__main__":
