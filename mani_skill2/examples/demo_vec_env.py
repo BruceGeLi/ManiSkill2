@@ -15,9 +15,9 @@ def parse_args():
     parser.add_argument("-o", "--obs-mode", type=str, default="image")
     parser.add_argument("-c", "--control-mode", type=str)
     parser.add_argument("--reward-mode", type=str)
-    parser.add_argument("-n", "--n-envs", type=int, default=4)
+    parser.add_argument("-n", "--n-envs", type=int, default=8)
     parser.add_argument("--vis", action="store_true")
-    parser.add_argument("--n-ep", type=int, default=20)
+    parser.add_argument("--n-ep", type=int, default=5)
     parser.add_argument("--l-ep", type=int, default=200)
     args, opts = parser.parse_known_args()
 
