@@ -108,5 +108,9 @@ class PDJointPosMimicController(PDJointPosController):
         return joint_limits[0:1]
 
 
+@dataclass
 class PDJointPosMimicControllerConfig(PDJointPosControllerConfig):
+    # Fixme: remove the gripper normalization
+    normalize_action: bool = False
     controller_cls = PDJointPosMimicController
+
