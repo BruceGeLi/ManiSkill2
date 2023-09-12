@@ -33,7 +33,7 @@ def parse_args(args=None):
         "-n",
         "--n-envs",
         type=int,
-        default=4,
+        default=38,
         help="Number of parallel environments to run",
     )
     parser.add_argument(
